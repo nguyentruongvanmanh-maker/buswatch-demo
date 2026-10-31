@@ -136,10 +136,10 @@ async function loadPersonModel(){
  }
  if(!vision)throw new Error('Không tải được bộ xử lý WebAssembly của AI. Hãy đổi mạng hoặc thử lại. '+(lastError?.message||''));
  $('aiStatus').textContent='Đang tải mô hình phát hiện người (có thể mất 1–2 phút)…';
- objectDetector=await ObjectDetector.createFromOptions(vision,{
-  baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/int8/1.tflite',delegate:'CPU'},
+ try{objectDetector=await ObjectDetector.createFromOptions(vision,{
+  baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float32/1/efficientdet_lite0.tflite',delegate:'CPU'},
   runningMode:'VIDEO',maxResults:10,scoreThreshold:0.45,categoryAllowlist:['person']
- });
+ });}catch(modelError){throw new Error('Không tải được mô hình EfficientDet-Lite0. Hãy kiểm tra mạng hoặc thử lại. Chi tiết: '+modelError.message);}
  $('aiStatus').textContent='AI phát hiện người đã sẵn sàng. Đang tìm người trong khung hình.';
 }
 function drawPersonBox(ctx,box,w,h,index){
