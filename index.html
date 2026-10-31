@@ -438,7 +438,7 @@ let lastAutoEventAt = 0;
 
 // Thông số
 const TRACK_MATCH_DISTANCE = 0.22;
-const TRACK_MISSING_MS = 1600;
+const TRACK_MISSING_MS = 600;
 const CONFIRM_FRAMES = 2;
 const EVENT_COOLDOWN_MS = 450;
 const MIN_FACE_AREA = 0.0015;
@@ -1115,7 +1115,7 @@ async function detectLoop() {
  busy = false;
 
  if (videoEl) {
-  detectTimer = setTimeout(detectLoop, 140);
+  detectTimer = setTimeout(detectLoop, 80);
  }
 }
 
