@@ -1,36 +1,314 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
 <title>BusWatch — Giám sát hành khách</title>
+
 <style>
-:root{--bg:#0b1220;--panel:#121d2e;--panel2:#18263a;--line:#29384d;--text:#edf4ff;--muted:#9aabc2;--cyan:#42d6d0;--green:#4bd39a;--yellow:#ffc861;--red:#ff727e}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#19334a 0,transparent 35%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-.wrap{max-width:1120px;margin:auto;padding:24px 18px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#42d6d0,#3689e8);display:grid;place-items:center;color:#06131e;font-size:23px;font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.status{border:1px solid #285b51;background:#10372f;color:#77e8bb;border-radius:999px;padding:7px 12px;font-size:12px}
-h2{font-size:17px;margin:0 0 14px}.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}.panel{background:linear-gradient(145deg,var(--panel),#101a29);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 30px #0002}.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase}.big{font-size:50px;line-height:1.1;font-weight:800;letter-spacing:-2px;margin:8px 0}.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{background:var(--panel2);border:1px solid var(--line);padding:12px;border-radius:13px}.stat b{display:block;font-size:22px}.stat span{color:var(--muted);font-size:12px}.right{display:flex;flex-direction:column;gap:16px}.signal{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}.signal:last-child{border:0}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:8px;box-shadow:0 0 12px currentColor}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}button{border:0;border-radius:11px;padding:11px 14px;font-weight:700;cursor:pointer;background:var(--cyan);color:#062025}button.secondary{background:#26364d;color:var(--text);border:1px solid #3a4b63}button.warn{background:#56313a;color:#ffdce0;border:1px solid #85444f}button:disabled{opacity:.5;cursor:not-allowed}
-.lower{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.camera{min-height:220px;background:linear-gradient(135deg,#17283a,#0d1725);border:1px dashed #496078;border-radius:14px;display:grid;place-items:center;text-align:center;padding:18px;overflow:hidden}.camera video{width:100%;max-height:300px;object-fit:cover;border-radius:10px}.camera small{display:block;color:var(--muted);margin-top:8px}.events{display:flex;flex-direction:column;gap:9px;max-height:250px;overflow:auto}.event{display:flex;gap:10px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);padding:10px;border-radius:12px}.event .ico{font-size:19px}.event b{display:block;font-size:13px}.event small{color:var(--muted)}.notice{margin-top:16px;padding:12px 14px;border-radius:12px;background:#172a3b;border:1px solid #2d4a61;color:#bfd3e8;font-size:12px}
-@media(max-width:760px){.hero,.lower{grid-template-columns:1fr}.wrap{padding:18px 13px 30px}.big{font-size:44px}.stats{gap:7px}.stat{padding:10px}.top{align-items:flex-start}.status{font-size:11px}}
+:root{
+ --bg:#0b1220;
+ --panel:#121d2e;
+ --panel2:#18263a;
+ --line:#29384d;
+ --text:#edf4ff;
+ --muted:#9aabc2;
+ --cyan:#42d6d0;
+ --green:#4bd39a;
+ --yellow:#ffc861;
+ --red:#ff727e;
+}
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:radial-gradient(circle at 80% 0%,#19334a 0,transparent 35%),var(--bg);
+ color:var(--text);
+ font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+
+.wrap{
+ max-width:1120px;
+ margin:auto;
+ padding:24px 18px 40px;
+}
+
+.top{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:14px;
+ margin-bottom:22px;
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
+}
+
+.logo{
+ width:44px;
+ height:44px;
+ border-radius:14px;
+ background:linear-gradient(135deg,#42d6d0,#3689e8);
+ display:grid;
+ place-items:center;
+ color:#06131e;
+ font-size:23px;
+ font-weight:900;
+}
+
+.brand h1{font-size:20px;margin:0}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+
+.status{
+ border:1px solid #285b51;
+ background:#10372f;
+ color:#77e8bb;
+ border-radius:999px;
+ padding:7px 12px;
+ font-size:12px;
+}
+
+h2{font-size:17px;margin:0 0 14px}
+
+.hero{
+ display:grid;
+ grid-template-columns:1.4fr .8fr;
+ gap:16px;
+}
+
+.panel{
+ background:linear-gradient(145deg,var(--panel),#101a29);
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:18px;
+ box-shadow:0 12px 30px #0002;
+}
+
+.eyebrow{
+ color:var(--cyan);
+ font-size:11px;
+ font-weight:800;
+ letter-spacing:1.2px;
+ text-transform:uppercase;
+}
+
+.big{
+ font-size:50px;
+ line-height:1.1;
+ font-weight:800;
+ letter-spacing:-2px;
+ margin:8px 0;
+}
+
+.muted{color:var(--muted)}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ margin-top:18px;
+}
+
+.stat{
+ background:var(--panel2);
+ border:1px solid var(--line);
+ padding:12px;
+ border-radius:13px;
+}
+
+.stat b{display:block;font-size:22px}
+.stat span{color:var(--muted);font-size:12px}
+
+.right{
+ display:flex;
+ flex-direction:column;
+ gap:16px;
+}
+
+.signal{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:11px 0;
+ border-bottom:1px solid var(--line);
+}
+
+.signal:last-child{border:0}
+
+.dot{
+ display:inline-block;
+ width:8px;
+ height:8px;
+ border-radius:50%;
+ background:var(--green);
+ margin-right:8px;
+ box-shadow:0 0 12px currentColor;
+}
+
+.actions{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+ margin-top:16px;
+}
+
+button{
+ border:0;
+ border-radius:11px;
+ padding:11px 14px;
+ font-weight:700;
+ cursor:pointer;
+ background:var(--cyan);
+ color:#062025;
+}
+
+button.secondary{
+ background:#26364d;
+ color:var(--text);
+ border:1px solid #3a4b63;
+}
+
+button.warn{
+ background:#56313a;
+ color:#ffdce0;
+ border:1px solid #85444f;
+}
+
+button:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.lower{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:16px;
+ margin-top:16px;
+}
+
+.camera{
+ min-height:220px;
+ background:linear-gradient(135deg,#17283a,#0d1725);
+ border:1px dashed #496078;
+ border-radius:14px;
+ display:grid;
+ place-items:center;
+ text-align:center;
+ padding:18px;
+ overflow:hidden;
+}
+
+.camera video{
+ width:100%;
+ max-height:300px;
+ object-fit:cover;
+ border-radius:10px;
+}
+
+.camera small{
+ display:block;
+ color:var(--muted);
+ margin-top:8px;
+}
+
+.events{
+ display:flex;
+ flex-direction:column;
+ gap:9px;
+ max-height:250px;
+ overflow:auto;
+}
+
+.event{
+ display:flex;
+ gap:10px;
+ align-items:flex-start;
+ background:var(--panel2);
+ border:1px solid var(--line);
+ padding:10px;
+ border-radius:12px;
+}
+
+.event .ico{font-size:19px}
+.event b{display:block;font-size:13px}
+.event small{color:var(--muted)}
+
+.notice{
+ margin-top:16px;
+ padding:12px 14px;
+ border-radius:12px;
+ background:#172a3b;
+ border:1px solid #2d4a61;
+ color:#bfd3e8;
+ font-size:12px;
+}
+
+@media(max-width:760px){
+ .hero,.lower{grid-template-columns:1fr}
+ .wrap{padding:18px 13px 30px}
+ .big{font-size:44px}
+ .stats{gap:7px}
+ .stat{padding:10px}
+ .top{align-items:flex-start}
+ .status{font-size:11px}
+}
 </style>
 </head>
+
 <body>
 <div class="wrap">
+
 <header class="top">
- <div class="brand"><div class="logo">B</div><div><h1>BusWatch</h1><p>HỆ THỐNG GIÁM SÁT HÀNH KHÁCH XE BUÝT</p></div></div>
+ <div class="brand">
+  <div class="logo">B</div>
+  <div>
+   <h1>BusWatch</h1>
+   <p>HỆ THỐNG GIÁM SÁT HÀNH KHÁCH XE BUÝT</p>
+  </div>
+ </div>
  <div class="status" id="systemStatus">● HỆ THỐNG ĐANG HOẠT ĐỘNG</div>
 </header>
+
 <section class="hero">
+
  <div class="panel">
   <div class="eyebrow">Tổng quan chuyến xe · Đếm tự động bằng AI</div>
-  <div class="muted" style="margin-top:12px">Số người hiện có trên xe</div>
-  <div class="big" id="count">0 <span style="font-size:18px;color:#9aabc2;font-weight:500;letter-spacing:0">/ 30</span></div>
-  <div class="muted" id="capacityText">Còn 30 chỗ trống · Sức chứa mô phỏng: 30 người</div>
-  <div class="stats">
-   <div class="stat"><b id="boarded">0</b><span>Đã lên xe</span></div>
-   <div class="stat"><b id="left">0</b><span>Đã xuống xe</span></div>
-   <div class="stat"><b id="occupancy">0%</b><span>Tỷ lệ lấp đầy</span></div>
+
+  <div class="muted" style="margin-top:12px">
+   Số người hiện có trên xe
   </div>
+
+  <div class="big" id="count">
+   0 <span style="font-size:18px;color:#9aabc2;font-weight:500;letter-spacing:0">/ 30</span>
+  </div>
+
+  <div class="muted" id="capacityText">
+   Còn 30 chỗ trống · Sức chứa mô phỏng: 30 người
+  </div>
+
+  <div class="stats">
+   <div class="stat">
+    <b id="boarded">0</b>
+    <span>Đã lên xe</span>
+   </div>
+
+   <div class="stat">
+    <b id="left">0</b>
+    <span>Đã xuống xe</span>
+   </div>
+
+   <div class="stat">
+    <b id="occupancy">0%</b>
+    <span>Tỷ lệ lấp đầy</span>
+   </div>
+  </div>
+
   <div class="actions">
    <button id="inBtn">＋ Mô phỏng lên xe</button>
    <button class="secondary" id="outBtn">－ Mô phỏng xuống xe</button>
@@ -38,183 +316,989 @@ h2{font-size:17px;margin:0 0 14px}.hero{display:grid;grid-template-columns:1.4fr
    <button class="warn" id="resetBtn">Đặt lại</button>
   </div>
  </div>
+
  <div class="right">
+
   <div class="panel">
    <h2>Trạng thái thiết bị</h2>
-   <div class="signal"><span><i class="dot"></i>Máy chủ demo</span><b style="color:var(--green)">Online</b></div>
-   <div class="signal"><span><i class="dot"></i>Bộ đếm hành khách</span><b style="color:var(--green)">Sẵn sàng</b></div>
-   <div class="signal"><span><i class="dot" style="background:var(--yellow);color:var(--yellow)"></i>ESP32 / cảm biến</span><b style="color:var(--yellow)">Chưa kết nối</b></div>
-   <div class="signal"><span><i class="dot" style="background:var(--yellow);color:var(--yellow)"></i>AI camera</span><b style="color:var(--yellow)">Mô phỏng</b></div>
+
+   <div class="signal">
+    <span><i class="dot"></i>Máy chủ demo</span>
+    <b style="color:var(--green)">Online</b>
+   </div>
+
+   <div class="signal">
+    <span><i class="dot"></i>Bộ đếm hành khách</span>
+    <b style="color:var(--green)">Sẵn sàng</b>
+   </div>
+
+   <div class="signal">
+    <span><i class="dot" style="background:var(--yellow);color:var(--yellow)"></i>ESP32 / cảm biến</span>
+    <b style="color:var(--yellow)">Chưa kết nối</b>
+   </div>
+
+   <div class="signal">
+    <span><i class="dot" style="background:var(--yellow);color:var(--yellow)"></i>AI camera</span>
+    <b style="color:var(--yellow)">Chờ khởi động</b>
+   </div>
   </div>
+
   <div class="panel">
    <div class="eyebrow">Cảnh báo sức chứa</div>
    <h2 style="margin-top:7px" id="capacityAlert">Xe còn chỗ</h2>
-   <div class="muted" id="alertText">Số người đang dưới ngưỡng cảnh báo 90%.</div>
+   <div class="muted" id="alertText">
+    Số người đang dưới ngưỡng cảnh báo 90%.
+   </div>
   </div>
+
  </div>
 </section>
+
 <section class="lower">
+
  <div class="panel">
   <h2>Camera giám sát</h2>
-  <div class="camera" id="cameraBox"><div><div style="font-size:36px">📷</div><b>Chưa bật camera</b><small>Bật camera để AI phát hiện người và vẽ khung chữ nhật.</small></div></div>
-  <div class="actions"><button class="secondary" id="cameraBtn">Mở camera + AI</button><button class="secondary" id="stopCameraBtn" disabled>Dừng camera</button></div>
-  <div class="notice" style="margin-top:12px"><b>AI phát hiện trong khung hình:</b> <span id="aiCount">0 người</span><br><span id="aiStatus">Chưa chạy mô hình AI.</span></div>
- </div>
- <div class="panel">
-  <h2>Nhật ký hoạt động</h2>
-  <div class="events" id="events">
-   <div class="event"><div class="ico">🟢</div><div><b>Hệ thống demo đã sẵn sàng</b><small>Vừa xong · Chờ thao tác thử</small></div></div>
+
+  <div class="camera" id="cameraBox">
+   <div>
+    <div style="font-size:36px">📷</div>
+    <b>Chưa bật camera</b>
+    <small>Camera sẽ chỉ tìm khuôn mặt và vẽ khung vùng đầu.</small>
+   </div>
+  </div>
+
+  <div class="actions">
+   <button class="secondary" id="cameraBtn">Mở camera + AI</button>
+   <button class="secondary" id="stopCameraBtn" disabled>Dừng camera</button>
+  </div>
+
+  <div class="notice" style="margin-top:12px">
+   <b>Khuôn mặt phát hiện:</b>
+   <span id="aiCount">0 khuôn mặt</span>
+   <br>
+   <span id="aiStatus">Chưa chạy mô hình AI.</span>
   </div>
  </div>
+
+ <div class="panel">
+  <h2>Nhật ký hoạt động</h2>
+
+  <div class="events" id="events">
+   <div class="event">
+    <div class="ico">🟢</div>
+    <div>
+     <b>Hệ thống demo đã sẵn sàng</b>
+     <small>Vừa xong · Chờ thao tác thử</small>
+    </div>
+   </div>
+  </div>
+ </div>
+
 </section>
-<div class="notice"><b>Lưu ý:</b> Camera cần được cố định, hướng vào cửa xe. AI dùng Object Detector để phát hiện người và vẽ khung chữ nhật quanh từng người. Bộ đếm thử nghiệm dựa trên người xuất hiện/mất khỏi khung hình; có thể đếm nhầm khi bị che khuất hoặc đi ra ngoài vùng camera; không thay thế cảm biến cửa/kiểm đếm chuyên dụng. Cần mạng internet để tải thư viện AI lần đầu; camera cần HTTPS hoặc localhost. Trên điện thoại, nhấn “Bật thông báo” và chọn Cho phép. Thông báo trình duyệt chỉ gửi khi trang BusWatch còn đang mở; nếu đóng hẳn Chrome hoặc hệ điều hành chặn chạy nền thì có thể không nhận được thông báo.</div>
+
+<div class="notice">
+ <b>Lưu ý:</b>
+ Camera nên được cố định và hướng vào cửa xe.
+ AI chỉ phát hiện khuôn mặt, không phát hiện bàn chân hoặc thân người.
+ Người quay lưng, bị che mặt hoặc nằm ngoài góc camera có thể không được nhận diện.
+ Bộ đếm xác nhận 2 khung hình trước khi tính lượt lên.
+ Khi khuôn mặt biến mất khoảng 1,6 giây, hệ thống tạm tính là xuống xe.
+ Đây là mô hình thử nghiệm, không thay thế hệ thống kiểm đếm chuyên dụng.
+ Camera cần HTTPS hoặc localhost và cần internet để tải AI lần đầu.
+ Thông báo trình duyệt chỉ hoạt động khi trang còn được phép chạy.
 </div>
-<script>
-// Khởi tạo chuyến mới từ 0; không nạp số liệu mẫu 18/30.
-let count=0, boarded=0, left=0, stream=null;
-const $=id=>document.getElementById(id);
-function log(title,detail,icon='🔔'){
- const el=document.createElement('div');el.className='event';
- const a=document.createElement('div');a.className='ico';a.textContent=icon;
- const b=document.createElement('div');const strong=document.createElement('b');strong.textContent=title;
- const small=document.createElement('small');small.textContent=detail+' · '+new Date().toLocaleTimeString('vi-VN');
- b.append(strong,small);el.append(a,b);$('events').prepend(el);
+
+</div>
+
+<script type="module">
+
+// =====================================
+// 1. BIẾN HỆ THỐNG
+// =====================================
+
+let count = 0;
+let boarded = 0;
+let left = 0;
+
+let stream = null;
+let faceDetector = null;
+
+let detectTimer = null;
+let videoEl = null;
+let canvasEl = null;
+
+let busy = false;
+let lastVideoTime = -1;
+
+// Theo dõi khuôn mặt
+let tracks = [];
+let nextTrackId = 1;
+let trackingReady = false;
+let lastAutoEventAt = 0;
+
+// Thông số
+const TRACK_MATCH_DISTANCE = 0.22;
+const TRACK_MISSING_MS = 1600;
+const CONFIRM_FRAMES = 2;
+const EVENT_COOLDOWN_MS = 450;
+const MIN_FACE_AREA = 0.0015;
+const SCORE_MIN = 0.50;
+
+const $ = id => document.getElementById(id);
+
+
+// =====================================
+// 2. NHẬT KÝ
+// =====================================
+
+function log(title, detail, icon = '🔔') {
+
+ const el = document.createElement('div');
+ el.className = 'event';
+
+ const a = document.createElement('div');
+ a.className = 'ico';
+ a.textContent = icon;
+
+ const b = document.createElement('div');
+
+ const strong = document.createElement('b');
+ strong.textContent = title;
+
+ const small = document.createElement('small');
+ small.textContent =
+  detail + ' · ' + new Date().toLocaleTimeString('vi-VN');
+
+ b.append(strong, small);
+ el.append(a, b);
+
+ $('events').prepend(el);
 }
-function update(){
- $('count').innerHTML=count+' <span style="font-size:18px;color:#9aabc2;font-weight:500;letter-spacing:0">/ 30</span>';
- $('boarded').textContent=boarded;$('left').textContent=left;$('occupancy').textContent=Math.round(count/30*100)+'%';
- $('capacityText').textContent='Còn '+(30-count)+' chỗ trống · Sức chứa mô phỏng: 30 người';
- const high=count>=27;
- $('capacityAlert').textContent=high?'⚠ Gần đầy xe':'Xe còn chỗ';
- $('capacityAlert').style.color=high?'#ffc861':'#edf4ff';
- $('alertText').textContent=high?'Đã đạt từ 90% sức chứa. Cần chú ý khi đón thêm khách.':'Số người đang dưới ngưỡng cảnh báo 90%.';
+
+
+// =====================================
+// 3. CẬP NHẬT BỘ ĐẾM
+// =====================================
+
+function update() {
+
+ $('count').innerHTML =
+  count +
+  ' <span style="font-size:18px;color:#9aabc2;font-weight:500;letter-spacing:0">/ 30</span>';
+
+ $('boarded').textContent = boarded;
+ $('left').textContent = left;
+
+ $('occupancy').textContent =
+  Math.round(count / 30 * 100) + '%';
+
+ $('capacityText').textContent =
+  'Còn ' + (30 - count) +
+  ' chỗ trống · Sức chứa mô phỏng: 30 người';
+
+ const high = count >= 27;
+
+ $('capacityAlert').textContent =
+  high ? '⚠ Gần đầy xe' : 'Xe còn chỗ';
+
+ $('capacityAlert').style.color =
+  high ? '#ffc861' : '#edf4ff';
+
+ $('alertText').textContent =
+  high
+   ? 'Đã đạt từ 90% sức chứa. Cần chú ý khi đón thêm khách.'
+   : 'Số người đang dưới ngưỡng cảnh báo 90%.';
 }
-function notify(title,body){
- // Thông báo trên Android/Chrome chỉ hoạt động sau khi người dùng cấp quyền.
- if('Notification' in window && Notification.permission==='granted'){
-  try{new Notification(title,{body,tag:'buswatch-'+Date.now(),renotify:false});}catch(e){console.warn('Không gửi được thông báo:',e);}
+
+
+// =====================================
+// 4. THÔNG BÁO
+// =====================================
+
+function notify(title, body) {
+
+ if (
+  'Notification' in window &&
+  Notification.permission === 'granted'
+ ) {
+  try {
+   new Notification(title, { body });
+  } catch (e) {
+   console.warn(e);
+  }
  }
- if('vibrate' in navigator){try{navigator.vibrate([120,60,120]);}catch(e){}}
+
+ if ('vibrate' in navigator) {
+  try {
+   navigator.vibrate([120, 60, 120]);
+  } catch (e) {}
+ }
 }
-function announceCountChange(direction){
- const message='Hiện có '+count+' hành khách trên xe.';
- if(direction==='in') notify('BusWatch · Có người lên xe',message);
- else notify('BusWatch · Có người xuống xe',message);
+
+function announceCountChange(direction) {
+
+ const message =
+  'Hiện có ' + count + ' hành khách trên xe.';
+
+ if (direction === 'in') {
+  notify('BusWatch · Có người lên xe', message);
+ } else {
+  notify('BusWatch · Có người xuống xe', message);
+ }
 }
-$('inBtn').onclick=()=>{if(count>=30){log('Xe đã đủ chỗ','Không thể tăng thêm trong demo','⚠️');notify('BusWatch: Cảnh báo quá tải','Xe đã đạt sức chứa mô phỏng.');return}
- count++;boarded++;update();log('Phát hiện hành khách lên xe','Tổng số hiện tại: '+count+' người','🟢');if(count>=27){notify('BusWatch: Gần đầy xe','Xe đã đạt '+Math.round(count/30*100)+'% sức chứa.');}};
-$('outBtn').onclick=()=>{if(count<=0){log('Không có hành khách để trừ','Số lượng đang bằng 0','ℹ️');return}count--;left++;update();log('Phát hiện hành khách xuống xe','Tổng số hiện tại: '+count+' người','🔵');};
-$('resetBtn').onclick=()=>{count=0;boarded=0;left=0;update();log('Đã đặt lại bộ đếm','Các lượt lên/xuống trở về 0','↻');};
-$('notifyBtn').onclick=async()=>{if(!('Notification' in window)){alert('Trình duyệt này không hỗ trợ Web Notifications.');return}
- if(Notification.permission==='granted'){alert('Thông báo đã được bật.');return}
- const p=await Notification.requestPermission();alert(p==='granted'?'Đã bật thông báo trên điện thoại. Khi AI ghi nhận người lên/xuống, Chrome sẽ gửi thông báo.':'Chưa được cấp quyền thông báo. Hãy cho phép thông báo trong cài đặt trang web của Chrome.');};
-let objectDetector=null, detectTimer=null, videoEl=null, canvasEl=null, busy=false, lastVideoTime=-1;
-// Theo dõi tạm thời bằng vị trí tâm khung xương trong ảnh.
-let tracks=[], nextTrackId=1, trackingReady=false, lastAutoEventAt=0;
-const TRACK_MATCH_DISTANCE=0.20, TRACK_MISSING_MS=2800, EVENT_COOLDOWN_MS=900;
-async function loadPersonModel(){
- $('aiStatus').textContent='Đang tải thư viện MediaPipe…';
- let mp, lastError;
- const moduleUrls=[
+
+
+// =====================================
+// 5. CÁC NÚT ĐIỀU KHIỂN
+// =====================================
+
+$('inBtn').onclick = () => {
+
+ if (count >= 30) {
+  log('Xe đã đủ chỗ', 'Không thể tăng thêm trong demo', '⚠️');
+  notify('BusWatch: Cảnh báo quá tải', 'Xe đã đạt sức chứa mô phỏng.');
+  return;
+ }
+
+ count++;
+ boarded++;
+
+ update();
+
+ log(
+  'Phát hiện hành khách lên xe',
+  'Tổng số hiện tại: ' + count + ' người',
+  '🟢'
+ );
+
+ if (count >= 27) {
+  notify(
+   'BusWatch: Gần đầy xe',
+   'Xe đã đạt ' + Math.round(count / 30 * 100) + '% sức chứa.'
+  );
+ }
+};
+
+
+$('outBtn').onclick = () => {
+
+ if (count <= 0) {
+  log('Không có hành khách để trừ', 'Số lượng đang bằng 0', 'ℹ️');
+  return;
+ }
+
+ count--;
+ left++;
+
+ update();
+
+ log(
+  'Phát hiện hành khách xuống xe',
+  'Tổng số hiện tại: ' + count + ' người',
+  '🔵'
+ );
+};
+
+
+$('resetBtn').onclick = () => {
+
+ count = 0;
+ boarded = 0;
+ left = 0;
+
+ update();
+
+ log(
+  'Đã đặt lại bộ đếm',
+  'Các lượt lên/xuống trở về 0',
+  '↻'
+ );
+};
+
+
+$('notifyBtn').onclick = async () => {
+
+ if (!('Notification' in window)) {
+  alert('Trình duyệt này không hỗ trợ thông báo.');
+  return;
+ }
+
+ if (Notification.permission === 'granted') {
+  alert('Thông báo đã được bật.');
+  return;
+ }
+
+ const p = await Notification.requestPermission();
+
+ alert(
+  p === 'granted'
+   ? 'Đã bật thông báo.'
+   : 'Chưa được cấp quyền thông báo.'
+ );
+};
+
+
+// =====================================
+// 6. TẢI FACE DETECTOR
+// =====================================
+
+async function loadFaceModel() {
+
+ $('aiStatus').textContent =
+  'Đang tải thư viện MediaPipe...';
+
+ let mp;
+ let lastError;
+
+ const moduleUrls = [
   'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs',
   'https://unpkg.com/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs'
  ];
- for(const url of moduleUrls){
-  try{mp=await import(url);break;}catch(e){lastError=e;}
+
+ for (const url of moduleUrls) {
+
+  try {
+   mp = await import(url);
+   break;
+  } catch (e) {
+   lastError = e;
+  }
  }
- if(!mp)throw new Error('Không tải được thư viện MediaPipe từ các máy chủ CDN. Hãy kiểm tra mạng hoặc thử lại. '+(lastError?.message||''));
- const {FilesetResolver,ObjectDetector}=mp;
- if(!FilesetResolver||!ObjectDetector)throw new Error('Thư viện MediaPipe tải về nhưng thiếu thành phần Object Detector.');
- $('aiStatus').textContent='Đang tải bộ xử lý AI…';
+
+ if (!mp) {
+  throw new Error(
+   'Không tải được thư viện MediaPipe: ' +
+   (lastError?.message || '')
+  );
+ }
+
+ const { FilesetResolver, FaceDetector } = mp;
+
+ if (!FilesetResolver || !FaceDetector) {
+  throw new Error('Không tìm thấy Face Detector.');
+ }
+
+ $('aiStatus').textContent =
+  'Đang tải bộ xử lý AI...';
+
  let vision;
- const wasmUrls=[
+
+ const wasmUrls = [
   'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm',
   'https://unpkg.com/@mediapipe/tasks-vision@0.10.14/wasm'
  ];
- for(const url of wasmUrls){
-  try{vision=await FilesetResolver.forVisionTasks(url);break;}catch(e){lastError=e;}
+
+ for (const url of wasmUrls) {
+
+  try {
+   vision = await FilesetResolver.forVisionTasks(url);
+   break;
+  } catch (e) {
+   lastError = e;
+  }
  }
- if(!vision)throw new Error('Không tải được bộ xử lý WebAssembly của AI. Hãy đổi mạng hoặc thử lại. '+(lastError?.message||''));
- $('aiStatus').textContent='Đang tải mô hình phát hiện người (có thể mất 1–2 phút)…';
- try{objectDetector=await ObjectDetector.createFromOptions(vision,{
-  baseOptions:{modelAssetPath:'https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float32/1/efficientdet_lite0.tflite',delegate:'CPU'},
-  runningMode:'VIDEO',maxResults:10,scoreThreshold:0.45,categoryAllowlist:['person']
- });}catch(modelError){throw new Error('Không tải được mô hình EfficientDet-Lite0. Hãy kiểm tra mạng hoặc thử lại. Chi tiết: '+modelError.message);}
- $('aiStatus').textContent='AI phát hiện người đã sẵn sàng. Đang tìm người trong khung hình.';
+
+ if (!vision) {
+  throw new Error(
+   'Không tải được bộ xử lý WebAssembly: ' +
+   (lastError?.message || '')
+  );
+ }
+
+ $('aiStatus').textContent =
+  'Đang tải mô hình nhận diện khuôn mặt...';
+
+ const modelUrl =
+  'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/1/blaze_face_short_range.tflite';
+
+ faceDetector = await FaceDetector.createFromOptions(
+  vision,
+  {
+   baseOptions: {
+    modelAssetPath: modelUrl,
+    delegate: 'CPU'
+   },
+
+   runningMode: 'VIDEO',
+   minDetectionConfidence: SCORE_MIN
+  }
+ );
+
+ $('aiStatus').textContent =
+  'Face Detector đã sẵn sàng.';
 }
-function drawPersonBox(ctx,box,w,h,index){
- // MediaPipe Object Detector trả về bounding box theo pixel của ảnh đầu vào.
- const x=Math.max(0,box.originX),y=Math.max(0,box.originY);
- const bw=Math.max(0,Math.min(w-x,box.width)),bh=Math.max(0,Math.min(h-y,box.height));
- ctx.lineWidth=Math.max(2,w/240);ctx.strokeStyle='#42d6d0';ctx.strokeRect(x,y,bw,bh);
- const label='Người '+(index+1);ctx.font='bold '+Math.max(13,w/42)+'px sans-serif';
- const tw=ctx.measureText(label).width+14;ctx.fillStyle='#42d6d0';ctx.fillRect(x,y-Math.max(24,w/22),tw,Math.max(24,w/22));
- ctx.fillStyle='#062025';ctx.fillText(label,x+7,y-7);
+
+
+// =====================================
+// 7. VẼ KHUNG VÙNG ĐẦU
+// =====================================
+
+function drawHeadBox(
+ ctx,
+ box,
+ w,
+ h,
+ label,
+ confirmed
+) {
+
+ const x = Math.max(0, box.originX);
+ const y = Math.max(0, box.originY);
+
+ const bw = Math.max(0, Math.min(w - x, box.width));
+ const bh = Math.max(0, Math.min(h - y, box.height));
+
+ const color =
+  confirmed ? '#42d6d0' : '#ffc861';
+
+ ctx.lineWidth = Math.max(2, w / 240);
+ ctx.strokeStyle = color;
+
+ ctx.strokeRect(x, y, bw, bh);
+
+ ctx.font =
+  'bold ' + Math.max(13, w / 42) + 'px sans-serif';
+
+ const tw = ctx.measureText(label).width + 14;
+ const th = Math.max(24, w / 22);
+
+ ctx.fillStyle = color;
+
+ ctx.fillRect(
+  x,
+  Math.max(0, y - th),
+  tw,
+  th
+ );
+
+ ctx.fillStyle = '#062025';
+
+ ctx.fillText(
+  label,
+  x + 7,
+  Math.max(th - 7, y - 7)
+ );
 }
-async function detectLoop(){
- if(!videoEl||!objectDetector||busy)return;
- if(videoEl.readyState<2){detectTimer=setTimeout(detectLoop,250);return;}
- if(videoEl.currentTime===lastVideoTime){detectTimer=setTimeout(detectLoop,180);return;}
- lastVideoTime=videoEl.currentTime;busy=true;
- try{
-  const result=objectDetector.detectForVideo(videoEl,performance.now());
-  const people=(result.detections||[]).filter(d=>(d.categories||[]).some(c=>c.categoryName==='person'&&c.score>=0.45));
-  const now=Date.now();$('aiCount').textContent=people.length+' người';
-  $('aiStatus').textContent='AI đang phát hiện người bằng khung chữ nhật · Mất khỏi hình liên tục 2,8 giây = xuống (thử nghiệm).';
-  const w=videoEl.videoWidth,h=videoEl.videoHeight;
-  if(w&&h){if(canvasEl.width!==w||canvasEl.height!==h){canvasEl.width=w;canvasEl.height=h;}
-   const ctx=canvasEl.getContext('2d');ctx.clearRect(0,0,w,h);
-   const detections=people.map(d=>{const b=d.boundingBox;return {box:b,cx:(b.originX+b.width/2)/w,cy:(b.originY+b.height/2)/h};});
-   const used=new Set();
-   for(const d of detections){
-    let best=-1,bestDist=TRACK_MATCH_DISTANCE;
-    tracks.forEach((t,i)=>{if(used.has(i))return;const dist=Math.hypot(d.cx-t.cx,d.cy-t.cy);if(dist<bestDist){best=i;bestDist=dist;}});
-    if(best>=0){const t=tracks[best];used.add(best);t.cx=d.cx;t.cy=d.cy;t.lastSeen=now;d.trackId=t.id;}
-    else {const t={id:nextTrackId++,cx:d.cx,cy:d.cy,lastSeen:now,firstSeen:now};tracks.push(t);d.trackId=t.id;
-     if(trackingReady){count=Math.min(30,count+1);boarded++;update();lastAutoEventAt=now;log('AI phát hiện lượt lên xe','Phát hiện một người mới · Hiện có '+count+' người','🟢');announceCountChange('in');if(count>=27)notify('BusWatch · Cảnh báo gần đầy xe','Xe đã đạt '+Math.round(count/30*100)+'% sức chứa.');}
+
+
+// =====================================
+// 8. NHẬN DIỆN VÀ THEO DÕI KHUÔN MẶT
+// =====================================
+
+async function detectLoop() {
+
+ if (!videoEl || !faceDetector || busy) {
+  return;
+ }
+
+ if (videoEl.readyState < 2) {
+  detectTimer = setTimeout(detectLoop, 100);
+  return;
+ }
+
+ if (videoEl.currentTime === lastVideoTime) {
+  detectTimer = setTimeout(detectLoop, 80);
+  return;
+ }
+
+ lastVideoTime = videoEl.currentTime;
+ busy = true;
+
+ try {
+
+  const result = faceDetector.detectForVideo(
+   videoEl,
+   performance.now()
+  );
+
+  const now = Date.now();
+
+  const w = videoEl.videoWidth;
+  const h = videoEl.videoHeight;
+
+  if (w && h) {
+
+   if (canvasEl.width !== w || canvasEl.height !== h) {
+    canvasEl.width = w;
+    canvasEl.height = h;
+   }
+
+   const ctx = canvasEl.getContext('2d');
+
+   ctx.clearRect(0, 0, w, h);
+
+
+   // 8.1 Lọc khuôn mặt
+
+   const raw = (result.detections || []).filter(d => {
+
+    const score = d.categories?.[0]?.score || 0;
+    const b = d.boundingBox;
+
+    if (!b || score < SCORE_MIN) {
+     return false;
+    }
+
+    const area =
+     (b.width * b.height) / (w * h);
+
+    return area >= MIN_FACE_AREA;
+   });
+
+
+   // 8.2 Tạo dữ liệu khuôn mặt
+
+   const detections = raw.map(d => {
+
+    const b = d.boundingBox;
+    const score = d.categories?.[0]?.score || 0;
+
+    // Mở rộng khung khuôn mặt thành vùng đầu gần đúng.
+    // Tọa độ theo ảnh gốc.
+    const headBox = {
+     originX: Math.max(0, b.originX - b.width * 0.12),
+     originY: Math.max(0, b.originY - b.height * 0.28),
+     width: b.width * 1.24,
+     height: b.height * 1.38
+    };
+
+    return {
+     box: headBox,
+
+     cx: (b.originX + b.width / 2) / w,
+     cy: (b.originY + b.height / 2) / h,
+
+     score: score
+    };
+   });
+
+
+   // 8.3 Ghép khuôn mặt với track cũ
+
+   const pairs = [];
+
+   detections.forEach((d, di) => {
+
+    tracks.forEach((t, ti) => {
+
+     const dist = Math.hypot(
+      d.cx - t.cx,
+      d.cy - t.cy
+     );
+
+     if (dist <= TRACK_MATCH_DISTANCE) {
+      pairs.push({ di, ti, dist });
+     }
+    });
+   });
+
+   pairs.sort((a, b) => a.dist - b.dist);
+
+   const usedD = new Set();
+   const usedT = new Set();
+   const matchedIds = new Set();
+
+   for (const p of pairs) {
+
+    if (usedD.has(p.di) || usedT.has(p.ti)) {
+     continue;
+    }
+
+    usedD.add(p.di);
+    usedT.add(p.ti);
+
+    const t = tracks[p.ti];
+    const d = detections[p.di];
+
+    t.cx = t.cx * 0.55 + d.cx * 0.45;
+    t.cy = t.cy * 0.55 + d.cy * 0.45;
+
+    t.lastSeen = now;
+    t.hits = (t.hits || 0) + 1;
+    t.box = d.box;
+
+    matchedIds.add(t.id);
+    d.trackId = t.id;
+   }
+
+
+   // 8.4 Tạo track mới
+
+   detections.forEach((d, di) => {
+
+    if (usedD.has(di)) return;
+
+    const t = {
+     id: nextTrackId++,
+
+     cx: d.cx,
+     cy: d.cy,
+
+     lastSeen: now,
+     firstSeen: now,
+
+     hits: 1,
+     confirmed: false,
+     countedIn: false,
+
+     box: d.box
+    };
+
+    tracks.push(t);
+
+    d.trackId = t.id;
+    matchedIds.add(t.id);
+   });
+
+
+   // 8.5 Xác nhận khuôn mặt
+
+   for (const t of tracks) {
+
+    if (!t.confirmed && t.hits >= CONFIRM_FRAMES) {
+
+     t.confirmed = true;
+
+     if (
+      trackingReady &&
+      !t.countedIn &&
+      (now - lastAutoEventAt) >= EVENT_COOLDOWN_MS
+     ) {
+
+      t.countedIn = true;
+
+      count = Math.min(30, count + 1);
+      boarded++;
+
+      update();
+
+      lastAutoEventAt = now;
+
+      log(
+       'AI phát hiện khuôn mặt mới',
+       'Hiện có ' + count + ' người',
+       '🟢'
+      );
+
+      announceCountChange('in');
+
+      if (count >= 27) {
+       notify(
+        'BusWatch · Cảnh báo gần đầy xe',
+        'Xe đã đạt ' +
+        Math.round(count / 30 * 100) +
+        '% sức chứa.'
+       );
+      }
+
+     } else if (!trackingReady) {
+
+      t.countedIn = true;
+     }
     }
    }
-   tracks=tracks.filter(t=>{
-    if(!detections.some(d=>d.trackId===t.id)&&now-t.lastSeen>=TRACK_MISSING_MS){
-     if(trackingReady&&count>0){count=Math.max(0,count-1);left++;update();lastAutoEventAt=now;log('AI ghi nhận lượt xuống xe','Người biến mất liên tục 2,8 giây · Còn '+count+' người','🔵');announceCountChange('out');}
-     return false;
-    }return true;
+
+
+   // 8.6 Khuôn mặt biến mất
+
+   const alive = [];
+
+   for (const t of tracks) {
+
+    if (!matchedIds.has(t.id)) {
+
+     if (now - t.lastSeen >= TRACK_MISSING_MS) {
+
+      if (
+       trackingReady &&
+       t.confirmed &&
+       t.countedIn &&
+       count > 0
+      ) {
+
+       count = Math.max(0, count - 1);
+       left++;
+
+       update();
+
+       lastAutoEventAt = now;
+
+       log(
+        'AI ghi nhận khuôn mặt rời khỏi hình',
+        'Còn ' + count + ' người',
+        '🔵'
+       );
+
+       announceCountChange('out');
+      }
+
+      continue;
+     }
+    }
+
+    alive.push(t);
+   }
+
+   tracks = alive;
+
+
+   // 8.7 Hiển thị kết quả
+
+   const stable =
+    tracks.filter(t => t.confirmed).length;
+
+   $('aiCount').textContent =
+    stable + ' khuôn mặt ổn định' +
+    (detections.length !== stable
+     ? ' (phát hiện: ' + detections.length + ')'
+     : '');
+
+   $('aiStatus').textContent =
+    'Face Detector · xác nhận ' +
+    CONFIRM_FRAMES +
+    ' khung hình · mất khoảng ' +
+    (TRACK_MISSING_MS / 1000) +
+    ' giây = ghi nhận rời khỏi hình.';
+
+   detections.forEach(d => {
+
+    const t = tracks.find(x => x.id === d.trackId);
+
+    const label = t
+     ? (t.confirmed
+        ? ('Khuôn mặt #' + t.id)
+        : ('Đang xác nhận ' + t.hits + '/' + CONFIRM_FRAMES))
+     : 'Khuôn mặt';
+
+    drawHeadBox(
+     ctx,
+     d.box,
+     w,
+     h,
+     label,
+     t ? t.confirmed : false
+    );
    });
-   detections.forEach((d,i)=>drawPersonBox(ctx,d.box,w,h,i));
-   if(!trackingReady){trackingReady=true;log('AI đã thiết lập mốc theo dõi','Người đang có trong hình được lấy làm mốc ban đầu, không cộng lượt lên','🤖');}
+
+
+   // 8.8 Thiết lập mốc ban đầu
+
+   if (!trackingReady) {
+
+    trackingReady = true;
+
+    tracks.forEach(t => {
+     t.confirmed = true;
+     t.countedIn = true;
+     t.hits = Math.max(
+      t.hits || 0,
+      CONFIRM_FRAMES
+     );
+    });
+
+    log(
+     'AI đã thiết lập mốc theo dõi',
+     'Khuôn mặt đang có trong hình được lấy làm mốc, không cộng lượt lên',
+     '🤖'
+    );
+   }
   }
- }catch(e){$('aiStatus').textContent='Lỗi nhận diện: '+e.message;}
- busy=false;if(videoEl)detectTimer=setTimeout(detectLoop,300);
+
+ } catch (e) {
+
+  $('aiStatus').textContent =
+   'Lỗi nhận diện: ' + e.message;
+
+  console.error(e);
+ }
+
+ busy = false;
+
+ if (videoEl) {
+  detectTimer = setTimeout(detectLoop, 140);
+ }
 }
-$('cameraBtn').onclick=async()=>{
- try{
-  if(!window.isSecureContext||!navigator.mediaDevices?.getUserMedia)throw new Error('Camera cần mở website bằng HTTPS trong Chrome, không mở file content:// hoặc file://.');
-  $('cameraBtn').disabled=true;$('aiStatus').textContent='Đang xin quyền camera…';
-  stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:640},height:{ideal:480},frameRate:{ideal:15,max:20}},audio:false});
-  $('cameraBox').innerHTML='';
-  const stage=document.createElement('div');stage.style.position='relative';stage.style.width='100%';
-  videoEl=document.createElement('video');videoEl.autoplay=true;videoEl.playsInline=true;videoEl.muted=true;videoEl.style.width='100%';videoEl.style.display='block';videoEl.srcObject=stream;
-  canvasEl=document.createElement('canvas');canvasEl.style.position='absolute';canvasEl.style.inset='0';canvasEl.style.width='100%';canvasEl.style.height='100%';canvasEl.style.pointerEvents='none';
-  stage.append(videoEl,canvasEl);$('cameraBox').append(stage);
-  await videoEl.play();$('stopCameraBtn').disabled=false;
-  log('Camera đã kết nối','Đang tải AI khung chữ nhật','📷');
-  await loadPersonModel();detectLoop();
- }catch(e){
-  if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;videoEl=null;canvasEl=null;
-  if(detectTimer)clearTimeout(detectTimer);detectTimer=null;objectDetector=null;busy=false;lastVideoTime=-1;
-  $('cameraBox').innerHTML='<div><div style="font-size:36px">📷</div><b>Chưa khởi động được camera/AI</b><small>Kiểm tra kết nối mạng và quyền camera, sau đó thử lại.</small></div>';
-  $('cameraBtn').disabled=false;$('stopCameraBtn').disabled=true;
-  $('aiStatus').textContent=e.name==='NotAllowedError'?'Chrome chưa được cấp quyền camera. Hãy vào Cài đặt Android → Ứng dụng → Chrome → Quyền → Máy ảnh → Cho phép.':(e.message||'Đã xảy ra lỗi không xác định.');
-  alert('Không thể khởi động camera/AI. '+$('aiStatus').textContent);
+
+
+// =====================================
+// 9. MỞ CAMERA
+// =====================================
+
+$('cameraBtn').onclick = async () => {
+
+ try {
+
+  if (
+   !window.isSecureContext ||
+   !navigator.mediaDevices?.getUserMedia
+  ) {
+   throw new Error(
+    'Camera cần mở website bằng HTTPS trong Chrome, không mở file trực tiếp.'
+   );
+  }
+
+  $('cameraBtn').disabled = true;
+
+  $('aiStatus').textContent =
+   'Đang xin quyền camera...';
+
+  stream = await navigator.mediaDevices.getUserMedia({
+
+   video: {
+    facingMode: { ideal: 'environment' },
+    width: { ideal: 640 },
+    height: { ideal: 480 },
+    frameRate: { ideal: 15, max: 20 }
+   },
+
+   audio: false
+  });
+
+
+  // Tạo khung camera
+
+  $('cameraBox').innerHTML = '';
+
+  const stage = document.createElement('div');
+
+  stage.style.position = 'relative';
+  stage.style.width = '100%';
+
+  videoEl = document.createElement('video');
+
+  videoEl.autoplay = true;
+  videoEl.playsInline = true;
+  videoEl.muted = true;
+
+  videoEl.style.width = '100%';
+  videoEl.style.display = 'block';
+
+  videoEl.srcObject = stream;
+
+
+  // Canvas vẽ khung nhận diện
+
+  canvasEl = document.createElement('canvas');
+
+  canvasEl.style.position = 'absolute';
+  canvasEl.style.inset = '0';
+  canvasEl.style.width = '100%';
+  canvasEl.style.height = '100%';
+  canvasEl.style.pointerEvents = 'none';
+
+  stage.append(videoEl, canvasEl);
+
+  $('cameraBox').append(stage);
+
+  await videoEl.play();
+
+  $('stopCameraBtn').disabled = false;
+
+  log(
+   'Camera đã kết nối',
+   'Đang tải AI nhận diện khuôn mặt',
+   '📷'
+  );
+
+  await loadFaceModel();
+
+  detectLoop();
+
+ } catch (e) {
+
+  if (stream) {
+   stream.getTracks().forEach(t => t.stop());
+  }
+
+  stream = null;
+  videoEl = null;
+  canvasEl = null;
+
+  if (detectTimer) {
+   clearTimeout(detectTimer);
+  }
+
+  detectTimer = null;
+  faceDetector = null;
+  busy = false;
+  lastVideoTime = -1;
+
+  $('cameraBox').innerHTML =
+   '<div><div style="font-size:36px">📷</div>' +
+   '<b>Chưa khởi động được camera/AI</b>' +
+   '<small>Kiểm tra kết nối mạng và quyền camera, sau đó thử lại.</small></div>';
+
+  $('cameraBtn').disabled = false;
+  $('stopCameraBtn').disabled = true;
+
+  $('aiStatus').textContent =
+   e.name === 'NotAllowedError'
+    ? 'Chrome chưa được cấp quyền camera. Hãy vào Cài đặt Android → Ứng dụng → Chrome → Quyền → Máy ảnh → Cho phép.'
+    : (e.message || 'Đã xảy ra lỗi không xác định.');
+
+  alert(
+   'Không thể khởi động camera/AI. ' +
+   $('aiStatus').textContent
+  );
  }
 };
-$('stopCameraBtn').onclick=()=>{
- if(detectTimer)clearTimeout(detectTimer);detectTimer=null;
- if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;videoEl=null;canvasEl=null;objectDetector=null;busy=false;lastVideoTime=-1;tracks=[];nextTrackId=1;trackingReady=false;tracks=[];nextTrackId=1;trackingReady=false;
- $('cameraBox').innerHTML='<div><div style="font-size:36px">📷</div><b>Camera đã dừng</b><small>Nhấn “Mở camera + AI” để thử lại.</small></div>';
- $('aiCount').textContent='0 người';$('aiStatus').textContent='Đã dừng camera và nhận diện.';
- $('stopCameraBtn').disabled=true;$('cameraBtn').disabled=false;log('Camera đã dừng','Luồng hình ảnh và nhận diện đã đóng','⏹️');
+
+
+// =====================================
+// 10. DỪNG CAMERA
+// =====================================
+
+$('stopCameraBtn').onclick = () => {
+
+ if (detectTimer) {
+  clearTimeout(detectTimer);
+ }
+
+ detectTimer = null;
+
+ if (stream) {
+  stream.getTracks().forEach(t => t.stop());
+ }
+
+ stream = null;
+ videoEl = null;
+ canvasEl = null;
+ faceDetector = null;
+
+ busy = false;
+ lastVideoTime = -1;
+
+ tracks = [];
+ nextTrackId = 1;
+ trackingReady = false;
+
+ $('cameraBox').innerHTML =
+  '<div><div style="font-size:36px">📷</div>' +
+  '<b>Camera đã dừng</b>' +
+  '<small>Nhấn “Mở camera + AI” để thử lại.</small></div>';
+
+ $('aiCount').textContent = '0 khuôn mặt';
+
+ $('aiStatus').textContent =
+  'Đã dừng camera và nhận diện.';
+
+ $('stopCameraBtn').disabled = true;
+ $('cameraBtn').disabled = false;
+
+ log(
+  'Camera đã dừng',
+  'Luồng hình ảnh và nhận diện đã đóng',
+  '⏹️'
+ );
 };
+
+
+// =====================================
+// 11. KHỞI ĐỘNG
+// =====================================
+
 update();
+
 </script>
-</body></html>
+</body>
+</html>
